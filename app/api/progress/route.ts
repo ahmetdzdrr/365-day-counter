@@ -3,7 +3,7 @@ import { format } from "date-fns";
 
 const getStartDate = () => {
   const currentYear = new Date().getFullYear(); 
-  return new Date(`${currentYear}-01-01T00:00:00`); 
+  return new Date(`${currentYear}-01-02T00:00:00`); 
 };
 
 export async function GET() {
