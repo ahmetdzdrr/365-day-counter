@@ -29,11 +29,11 @@ A simple web application that displays a progress bar indicating the percentage 
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/ahmetdzdrr/progress-bar-app.git
+    git clone https://github.com/ahmetdzdrr/365-day-counter.git
     ```
 2. Navigate to the project directory:
     ```sh
-    cd progress-bar-app
+    cd 365-day-counter
     ```
 3. Install the dependencies:
     ```sh
