@@ -1,23 +1,34 @@
-import { format } from 'date-fns';
+import { NextResponse } from "next/server";
+import { format } from "date-fns";
 
-let startDate = new Date();
-const endDate = new Date(startDate);
-endDate.setDate(startDate.getDate() + 365); 
+const getStartDate = () => {
+  const currentYear = new Date().getFullYear(); 
+  return new Date(`${currentYear}-01-01T00:00:00`); 
+};
 
-export default function handler(req, res) {
+export async function GET() {
+  const startDate = getStartDate(); 
   const currentDate = new Date();
   
-  const daysPassed = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
-  
-  const percentage = (daysPassed / 365) * 100;
+  const endDate = new Date(startDate);
+  endDate.setDate(startDate.getDate() + 365);
 
+  const daysPassed = Math.floor(
+    (currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  const percentage = (daysPassed / 365) * 100;
   const isComplete = daysPassed >= 365;
 
-  res.status(200).json({
+  if (isComplete) {
+    startDate.setFullYear(startDate.getFullYear() + 1);
+  }
+
+  return NextResponse.json({
     daysPassed,
     percentage: isComplete ? 100 : percentage,
     isComplete,
-    endDate: format(endDate, 'yyyy-MM-dd'),
-    currentDate: format(currentDate, 'yyyy-MM-dd'),
+    endDate: format(endDate, "dd-MM-yyyy"),
+    currentDate: format(currentDate, "dd-MM-yyyy"),
   });
 }
