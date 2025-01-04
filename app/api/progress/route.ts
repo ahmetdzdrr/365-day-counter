@@ -7,10 +7,13 @@ const getStartDate = () => {
 };
 
 export async function GET() {
-  const startDate = getStartDate(); 
+  const startDate = getStartDate();
   const currentDate = new Date();
-  
-  let daysPassed = 1;
+
+  // Geçen gün sayısını hesapla
+  const daysPassed = Math.floor(
+    (currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+  );
 
   const endDate = new Date(startDate);
   endDate.setDate(startDate.getDate() + 365);
@@ -18,13 +21,8 @@ export async function GET() {
   const percentage = (daysPassed / 365) * 100;
   const isComplete = daysPassed >= 365;
 
-  if (isComplete) {
-    startDate.setFullYear(startDate.getFullYear() + 1);
-    daysPassed = 1;
-  }
-
   return NextResponse.json({
-    daysPassed,
+    daysPassed: isComplete ? 365 : daysPassed,
     percentage: isComplete ? 100 : percentage,
     isComplete,
     endDate: format(endDate, "dd-MM-yyyy"),
